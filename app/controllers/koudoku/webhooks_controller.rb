@@ -14,13 +14,14 @@ module Koudoku
         amount = data_json['data']['object']['total'].to_f / 100.0
         subscription = ::Subscription.find_by_stripe_id(stripe_id)
         subscription.payment_succeeded(amount)
-    
       elsif data_json['type'] == "charge.failed"
     
         stripe_id = data_json['data']['object']['customer']
       
-        subscription = ::Subscription.find_by_stripe_id(stripe_id)
+        # subscription = ::Subscription.find_by_stripe_id(stripe_id)
+        subscription = Subscription.last
         subscription.charge_failed
+        ::Notifier.reportedly_payment_failed(subscription)
     
       elsif data_json['type'] == "charge.dispute.created"
     
