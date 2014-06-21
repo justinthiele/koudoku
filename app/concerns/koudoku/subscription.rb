@@ -165,7 +165,7 @@ module Koudoku::Subscription
   def subscription_owner_description
     # assuming owner responds to name.
     # we should check for whether it responds to this or not.
-    "#{subscription_owner.try(:last_name) || subscription_owner.try(:id)}"
+    "#{subscription_owner.try(:first_name)} #{subscription_owner.try(:last_name)}, ID: #{subscription_owner.try(:id)}"
   end
 
   def subscription_owner_email
